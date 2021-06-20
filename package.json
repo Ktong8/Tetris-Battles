@@ -2,9 +2,9 @@
     "name": "tetris",
     "version": "1.0.0",
     "scripts": {
-        "client": "cd client && yarn start",
-        "server": "nodemon dist/server.js",
-        "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+        "client": "tsc && cd client && yarn start",
+        "server": "tsc && nodemon dist/server.js",
+        "dev": "tsc && concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
     },
     "dependencies": {
         "body-parser": "^1.18.3",
