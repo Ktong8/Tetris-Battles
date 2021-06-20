@@ -1,26 +1,48 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import bodyParser from 'body-parser';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface AppProp {
+
+}
+
+interface AppState {
+  renderedComponent: string;
+}
+
+class App extends React.Component<AppProp, AppState> {
+  
+  constructor(props: AppProp) {
+    super(props);
+    this.state = {
+      renderedComponent: "",
+    };
+  }
+
+  getResponse = async () => {
+    const resp = await fetch('/api/hello');
+    const reply = await resp.json();
+    if(resp.status !== 200) throw Error(reply.message);
+
+    return reply
+  }
+
+  componentDidMount() {
+    this.getResponse().then((res) => {
+      const someData = res;
+      this.setState({
+        renderedComponent: someData.express,
+      });
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Response: {this.state.renderedComponent}</p>
+      </div>
+    )
+  }
+
 }
 
 export default App;
