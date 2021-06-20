@@ -1,5 +1,6 @@
 import React from 'react';
 import bodyParser from 'body-parser';
+import Game from './Game';
 
 interface AppProp {
 
@@ -37,8 +38,8 @@ class App extends React.Component<AppProp, AppState> {
 
   render() {
     return (
-      <div>
-        <p>Response: {this.state.renderedComponent}</p>
+      <div className = "App-container">
+        <Game/>
       </div>
     )
   }

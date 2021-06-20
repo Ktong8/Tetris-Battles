@@ -1,0 +1,91 @@
+.Cell-box {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.Cell-box-regular {
+    border: 2px solid #202020;
+}
+
+.Cell-box-highlighted {
+    background-color: #626262;
+    border: 2px solid #626262;
+}
+
+.Cell-box-black {
+    background-color: #181818;
+}
+
+.Cell-box-red {
+    background-color: #e3354c;
+}
+
+.Cell-box-yellow {
+    background-color: #fcc137;
+}
+
+.Cell-box-orange {
+    background-color: #e97507;
+}
+
+.Cell-box-cyan {
+    background-color: #4dcbe4;
+}
+
+.Cell-box-blue {
+    background-color: #2e64d9;
+}
+
+.Cell-box-purple {
+    background-color: #b93ba4;
+}
+
+.Cell-box-green {
+    background-color: #67cd18;
+}
+
+.Cell-inner-box {
+    width: 35px;
+    height: 35px;
+    border-radius:15%;
+    padding: 0;
+    margin: 0;
+}
+
+.Cell-inner-black {
+    background-color: #080808;
+}
+
+.Cell-inner-red {
+    background-color: #d0092d;
+}
+
+.Cell-inner-yellow {
+    background-color: #e7a90d;
+}
+
+.Cell-inner-orange {
+    background-color: #df5f01;
+}
+
+.Cell-inner-cyan {
+    background-color: #3bc1f7;
+}
+
+.Cell-inner-blue {
+    background-color: #153fb8;
+}
+
+.Cell-inner-purple {
+    background-color: #ac2789;
+}
+
+.Cell-inner-green {
+    background-color: #56b300;
+}
