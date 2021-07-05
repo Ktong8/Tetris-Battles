@@ -1,6 +1,6 @@
 .Cell-box {
-    width: 50px;
-    height: 50px;
+    width: 32px;
+    height: 32px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -50,9 +50,17 @@
     background-color: #67cd18;
 }
 
+.Cell-box-gray {
+    background-color: #808080;
+}
+
+.Cell-box-empty {
+    visibility: hidden;
+}
+
 .Cell-inner-box {
-    width: 35px;
-    height: 35px;
+    width: 21px;
+    height: 21px;
     border-radius:15%;
     padding: 0;
     margin: 0;
@@ -88,4 +96,12 @@
 
 .Cell-inner-green {
     background-color: #56b300;
+}
+
+.Cell-inner-gray {
+    background-color: #979892;
+}
+
+.Cell-inner-empty {
+    visibility: hidden;
 }

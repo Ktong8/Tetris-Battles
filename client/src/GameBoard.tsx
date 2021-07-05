@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import Cell from './Cell';
 import './GameBoard.css';
 
@@ -14,6 +14,12 @@ class GameBoard extends React.Component<GameBoardProps, GameBoardState> {
     constructor(props: GameBoardProps) {
         super(props);
         this.state = {
+
+        }
+    }
+
+    handleKeyPress = (event: KeyboardEvent) => {
+        if(event.key === 's') {
 
         }
     }

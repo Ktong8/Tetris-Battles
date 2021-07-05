@@ -10,6 +10,8 @@ const cellMap: Map<number, [string, string]> = new Map([
     [5, ['Cell-box-green', 'Cell-inner-green']],
     [6, ['Cell-box-red', 'Cell-inner-red']],
     [7, ['Cell-box-cyan', 'Cell-inner-cyan']],
+    [8, ['Cell-box-gray', 'Cell-inner-gray']],
+    [9, ['Cell-box-empty', 'Cell-inner-empty']],
 ]);
 
 interface CellProps {
@@ -25,8 +27,8 @@ interface CellState {
 class Cell extends React.Component<CellProps, CellState> {
     constructor(props: CellProps) {
         super(props);
-        const color = props.id % 8;
-        const highlighted = props.id >= 8;
+        const color = props.id % 10;
+        const highlighted = props.id >= 10;
         this.state = {
             outerbox: (cellMap.get(color)??['',''])[0],
             innerbox: (cellMap.get(color)??['',''])[1],

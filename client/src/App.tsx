@@ -2,6 +2,8 @@ import React from 'react';
 import bodyParser from 'body-parser';
 import Game from './Game';
 
+import './App.css';
+
 interface AppProp {
 
 }
