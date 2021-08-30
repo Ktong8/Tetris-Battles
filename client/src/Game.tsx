@@ -17,7 +17,7 @@ export interface Piece {
 
 export const pieces: Array<Piece> = [
     {
-        id: 11,
+        id: 1,
         width: 2,
         height: 2,
         grid: [[1,1],[1,1]],
@@ -83,6 +83,13 @@ class Game extends React.Component<GameProps, GameState> {
             board: board,
             queue: [pieces[0], pieces[1], pieces[2]],
         };
+    }
+
+    /**
+     * Game Logic to be run every set interval
+     */
+    makeMove = ()=> {
+
     }
 
     render() {

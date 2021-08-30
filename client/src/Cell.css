@@ -13,11 +13,6 @@
     border: 2px solid #202020;
 }
 
-.Cell-box-highlighted {
-    background-color: #f1f1f1;
-    border: 2px solid #f1f1f1;
-}
-
 .Cell-box-black {
     background-color: #181818;
 }
