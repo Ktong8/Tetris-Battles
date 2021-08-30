@@ -10,53 +10,79 @@ const height = 20; // number of rows in grid
 
 export interface Piece {
     id: number;
-    width: number;
-    height: number;
-    grid: Array<Array<number>>;
+    width: Array<number>; // width of each rotation
+    height: Array<number>; // height of each rotation
+    grids: Array<Array<number>>; // cells covered in each rotation
 }
 
 export const pieces: Array<Piece> = [
     {
         id: 1,
-        width: 2,
-        height: 2,
-        grid: [[1,1],[1,1]],
+        width: [2],
+        height: [2],
+        grids: [
+            [0, 1, width, width + 1],
+        ],
     },
     {
         id: 2,
-        width: 3,
-        height: 2,
-        grid: [[0,1,0], [1,1,1]],
+        width: [3, 2, 3, 2],
+        height: [2, 3, 2, 3],
+        grids: [
+            [1, width, width + 1, width + 2],
+            [1, width + 1, width + 2, 2 * width + 1],
+            [width, width + 1, width + 2, 2 * width + 1],
+            [1, width, width + 1, 2 * width + 1],
+        ],
     },
     {
         id: 3,
-        width: 3,
-        height: 2,
-        grid: [[1,0,0],[1,1,1]],
+        width: [3, 2, 3, 2],
+        height: [2, 3, 2, 3],
+        grids: [
+            [width, 2 * width, 2 * width + 1, 2 * width + 2],
+            [1, 2, width + 1, 2 * width + 1],
+            [width, width + 1, width + 2, 2 * width + 2],
+            [2 * width, 1, width + 1, 2 * width + 1],
+        ],
     },
     {
         id: 4,
-        width: 3,
-        height: 2,
-        grid: [[0,0,1],[1,1,1]],
+        width: [3, 2, 3, 2],
+        height: [2, 3, 2, 3],
+        grids: [
+            [width + 2, 2 * width, 2 * width + 1, 2 * width + 2],
+            [0, width, 2 * width, 2 * width + 1],
+            [0, 1, 2, width],
+            [1, 2, width + 2, 2 * width + 2],
+        ],
     },
     {
         id: 5,
-        width: 3,
-        height: 2,
-        grid: [[0,1,1],[1,1,0]],
+        width: [3, 2],
+        height: [2, 3],
+        grids: [
+            [width + 1, width + 2, 2 * width, 2 * width + 1],
+            [0, width, width + 1, 2 * width + 1],
+        ],
     },
     {
         id: 6,
-        width: 3,
-        height: 2,
-        grid: [[1,1,0], [0,1,1]],
+        width: [3, 2],
+        height: [2, 3],
+        grids: [
+            [width, width + 1, 2 * width + 1, 2 * width + 2],
+            [1, width + 1, width, 2 * width],
+        ],
     },
     {
         id: 7,
-        width: 4,
-        height: 1,
-        grid: [[1,1,1,1]],
+        width: [4, 1],
+        height: [1, 4],
+        grids: [
+            [width, width + 1, width + 2, width + 3],
+            [1, width + 1, 2 * width + 1, 3 * width + 1],
+        ],
     },
 ];
 
@@ -66,7 +92,7 @@ interface GameProps {
 
 interface GameState {
     board: Array<number>;
-    queue: Array<Piece>;
+    queue: Array<number>;
 }
 
 /**
@@ -78,7 +104,7 @@ class Game extends React.Component<GameProps, GameState> {
         const board: Array<number> = new Array(width * height).fill(0);
         this.state = {
             board: board,
-            queue: [pieces[0], pieces[1], pieces[2]],
+            queue: [0,1,2],
         };
     }
 

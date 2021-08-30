@@ -5,7 +5,7 @@ import { Piece } from './Game'
 import './Queue.css';
 
 interface QueueProps {
-    queue: Array<Piece>;
+    queue: Array<number>;
 }
 
 interface QueueState {
