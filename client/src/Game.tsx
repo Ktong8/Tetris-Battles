@@ -5,8 +5,8 @@ import Queue from './Queue';
 
 import './Game.css';
 
-const width = 10;
-const height = 20;
+const width = 10; // number of cells in each row
+const height = 20; // number of rows in grid
 
 export interface Piece {
     id: number;
@@ -65,7 +65,7 @@ interface GameProps {
 }
 
 interface GameState {
-    board: Array<Array<number>>;
+    board: Array<number>;
     queue: Array<Piece>;
 }
 
@@ -75,10 +75,7 @@ interface GameState {
 class Game extends React.Component<GameProps, GameState> {
     constructor(props: GameProps) {
         super(props);
-        const board: Array<Array<number>> = new Array(height);
-        for(let i = 0; i < height; i++){
-            board[i] = new Array(width).fill(0);
-        }
+        const board: Array<number> = new Array(width * height).fill(0);
         this.state = {
             board: board,
             queue: [pieces[0], pieces[1], pieces[2]],
