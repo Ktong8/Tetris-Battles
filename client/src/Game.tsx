@@ -17,7 +17,7 @@ export interface Piece {
 
 export const pieces: Array<Piece> = [
     {
-        id: 1,
+        id: 11,
         width: 2,
         height: 2,
         grid: [[1,1],[1,1]],
