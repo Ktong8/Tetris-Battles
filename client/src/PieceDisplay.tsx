@@ -52,12 +52,12 @@ class PieceDisplay extends React.Component<PieceDisplayProps, PieceDisplayState>
         return (
             <div className = "PieceDisplay-container">
                 {
-                    displayGrids[this.props.piece].map((row) => {
+                    displayGrids[this.props.piece].map((row, index) => {
                         return (
-                            <div className = "PieceDisplay-row">
-                                {row.map((on) => {
+                            <div className = "PieceDisplay-row" key = {index}>
+                                {row.map((on, index) => {
                                     return (
-                                        <Cell id = {on === 1 ? this.props.piece + 1 : 9}/>
+                                        <Cell id = {on === 1 ? this.props.piece + 1 : 9} key = {index}/>
                                     )
                                 })}
                             </div>

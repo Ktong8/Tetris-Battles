@@ -38,7 +38,6 @@ class Cell extends React.Component<CellProps, CellState> {
 
     render() {
         const highlight = 'Cell-box-regular';
-        console.log(highlight, this.state.outerbox, this.state.innerbox);
         return (
             <div className = {`Cell-box ${this.state.outerbox} ${highlight}`}>
                 <div className = {`Cell-inner-box ${this.state.innerbox}`}>

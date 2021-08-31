@@ -20,7 +20,7 @@ class Queue extends React.Component<QueueProps, QueueState> {
     render() {
         return (
             <div className = "Queue-container">
-                {this.props.queue.map((piece) => <PieceDisplay piece = {piece}/>)}
+                {this.props.queue.map((piece, index) => <PieceDisplay piece = {piece} key = {index}/>)}
             </div>
         )
     }
