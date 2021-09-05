@@ -117,8 +117,13 @@ class Game extends React.Component<GameProps, GameState> {
     }
 
     componentDidMount() {
-        setInterval(this.moveDown, 1000);
+        setInterval(this.advanceGame, 1000);
         document.addEventListener('keydown', this.handleKeyPress, false);
+    }
+
+    advanceGame = () => {
+        this.moveDown();
+        this.cleanBoard();
     }
 
     handleKeyPress = (event: KeyboardEvent) => {
@@ -155,7 +160,7 @@ class Game extends React.Component<GameProps, GameState> {
         const tetromino = pieces[this.state.currentTetromino];
         const grid = tetromino.grids[this.state.currentRotation];
         if (grid.some((index) => {
-            return index + this.state.currentPosition - 1 % width === width - 1 ||
+            return (index + this.state.currentPosition - 1) % width === width - 1 ||
                     (this.state.board[index + this.state.currentPosition - 1] !== 0 &&
                     grid.findIndex(val => val===index - 1) === -1);
         })){
@@ -174,7 +179,7 @@ class Game extends React.Component<GameProps, GameState> {
         const tetromino = pieces[this.state.currentTetromino];
         const grid = tetromino.grids[this.state.currentRotation];
         if (grid.some((index) => {
-            return index + this.state.currentPosition + 1 % width === 0 ||
+            return (index + this.state.currentPosition + 1) % width === 0 ||
                     (this.state.board[index + this.state.currentPosition + 1] !== 0 &&
                     grid.findIndex(val => val===index + 1) === -1);
         })){
@@ -248,6 +253,33 @@ class Game extends React.Component<GameProps, GameState> {
             };
         });
         this.draw();
+    }
+
+    cleanBoard = () => {
+        for(let i = 0; i < height; i++) {
+            let filled = true;
+            for(let j = 0; j < width; j++) {
+                if (this.state.board[i * width + j] === 0) {
+                    filled = false;
+                }
+            }
+            if (filled) {
+                this.undraw();
+                this.setState((prevState) => {
+                    const newBoard = new Array().fill(0);
+                    for(let j = 0; j < width * height; j++) {
+                        newBoard[j] = prevState.board[j];
+                    }
+                    for(let j = (i+1) * width - 1; j >= width; j--) { // move all rows above down one
+                        newBoard[j] = prevState.board[j - width];
+                    }
+                    return {
+                        board: newBoard,
+                    };
+                });
+                this.draw();
+            }
+        }
     }
 
     render() {
