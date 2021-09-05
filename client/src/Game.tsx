@@ -5,6 +5,7 @@ import Queue from './Queue';
 
 import './Game.css';
 import { isArray } from 'util';
+import { randomBytes } from 'crypto';
 
 const width = 10; // number of cells in each row
 const height = 20; // number of rows in grid
@@ -99,25 +100,6 @@ interface GameState {
     currentRotation: number; // rotation of current tetromino
 }
 
-/*export default function Game() {
-    const initBoard: Array<number> = new Array(width * height).fill(0);
-    const [board, setBoard] = useState(initBoard);
-    const [queue, setQueue] = useState([0,1,2]);
-    const [currentPosition, setCurrentPosition] = useState(3);
-    const [currentTetromino, setCurrentTetromino] = useState(0);
-    const [currentRotation, setCurrentRotation] = useState(0);
-
-    useEffect(() => {
-        const gameStart = setInterval(() => {
-            moveDown();
-        }, 1000);
-
-        return () => {
-            clearInterval(gameStart);
-        }
-    }, []);
-}*/
-
 /**
  * A Mutable Game React Component representing an interactable 10x20 Tetris game. 
  */
@@ -136,6 +118,23 @@ class Game extends React.Component<GameProps, GameState> {
 
     componentDidMount() {
         setInterval(this.moveDown, 1000);
+        document.addEventListener('keydown', this.handleKeyPress, false);
+    }
+
+    handleKeyPress = (event: KeyboardEvent) => {
+        if(event.key === 's') {
+            this.moveDown();
+        } else if (event.key === 'a') {
+            this.moveLeft();
+        } else if (event.key === 'd') {
+            this.moveRight();
+        } else if(event.key === 'r') {
+            this.rotate();
+        }
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyPress, false);
     }
 
     /**
@@ -146,7 +145,46 @@ class Game extends React.Component<GameProps, GameState> {
         this.setState((prevState: GameState) => {
             return {
                 currentPosition: prevState.currentPosition + width
-            }
+            };
+        });
+        this.draw();
+        this.freezeFall();
+    }
+
+    moveLeft = () => {
+        const tetromino = pieces[this.state.currentTetromino];
+        const grid = tetromino.grids[this.state.currentRotation];
+        if (grid.some((index) => {
+            return index + this.state.currentPosition - 1 % width === width - 1 ||
+                    (this.state.board[index + this.state.currentPosition - 1] !== 0 &&
+                    grid.findIndex(val => val===index - 1) === -1);
+        })){
+            return; // don't move left if already on left edge
+        }
+        this.undraw();
+        this.setState((prevState: GameState) => {
+            return {
+                currentPosition: prevState.currentPosition - 1
+            };
+        });
+        this.draw();
+    }
+
+    moveRight = () => {
+        const tetromino = pieces[this.state.currentTetromino];
+        const grid = tetromino.grids[this.state.currentRotation];
+        if (grid.some((index) => {
+            return index + this.state.currentPosition + 1 % width === 0 ||
+                    (this.state.board[index + this.state.currentPosition + 1] !== 0 &&
+                    grid.findIndex(val => val===index + 1) === -1);
+        })){
+            return;  // don't move right if already on right edge
+        }
+        this.undraw();
+        this.setState((prevState: GameState) => {
+            return {
+                currentPosition: prevState.currentPosition + 1
+            };
         });
         this.draw();
     }
@@ -181,12 +219,42 @@ class Game extends React.Component<GameProps, GameState> {
         });
     }
 
+    freezeFall = () => {
+        const tetromino = pieces[this.state.currentTetromino];
+        const grid = tetromino.grids[this.state.currentRotation];
+        if (grid.some((index) => {
+            return index + this.state.currentPosition + width >= width * height ||
+                    (this.state.board[index + this.state.currentPosition + width] !== 0 &&
+                    grid.findIndex(val => val===index + width) === -1);
+        })) {
+            const randomTetromino = Math.floor(Math.random() * pieces.length);
+            const randomRotation = Math.floor(Math.random() * pieces[randomTetromino].grids.length);
+            this.setState({
+                currentPosition: 4,
+                currentTetromino: randomTetromino,
+                currentRotation: randomRotation,
+            });
+            this.draw();
+        }
+    }
+
+    rotate = () => {
+        this.undraw();
+        const tetromino = pieces[this.state.currentTetromino];
+        const rotations = tetromino.grids.length;
+        this.setState((prevState) => {
+            return {
+                currentRotation: (prevState.currentRotation + 1) % rotations,
+            };
+        });
+        this.draw();
+    }
+
     render() {
         const board: Array<Array<number>> = [];
         for(let i = 0; i < 20; i++) {
             board.push(this.state.board.slice(i * 10, (i+1) * 10));
         }
-        console.log(board);
         return (
             <div className = "Game-container">
                 <GameBoard board = {board}/>

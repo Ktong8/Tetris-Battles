@@ -19,7 +19,7 @@ interface CellProps {
 }
 
 interface CellState {
-    
+
 }
 
 class Cell extends React.Component<CellProps, CellState> {
@@ -32,7 +32,6 @@ class Cell extends React.Component<CellProps, CellState> {
         const outerbox = (cellMap.get(color)??['',''])[0];
         const innerbox = (cellMap.get(color)??['',''])[1];
         const highlight = 'Cell-box-regular';
-        console.log('rerendering:');
         return (
             <div className = {`Cell-box ${outerbox} Cell-box-regular`}>
                 <div className = {`Cell-inner-box ${innerbox}`}>
