@@ -234,10 +234,16 @@ class Game extends React.Component<GameProps, GameState> {
         })) {
             const randomTetromino = Math.floor(Math.random() * pieces.length);
             const randomRotation = Math.floor(Math.random() * pieces[randomTetromino].grids.length);
-            this.setState({
-                currentPosition: 4,
-                currentTetromino: randomTetromino,
-                currentRotation: randomRotation,
+            this.setState((prevState: GameState) => {
+                const newQueue = prevState.queue.slice(1);
+                const nextPiece = prevState.queue[0];
+                newQueue.push(Math.floor(Math.random() * pieces.length));
+                return {
+                    currentPosition: 4,
+                    currentRotation: 0,
+                    currentTetromino: nextPiece,
+                    queue: newQueue
+                };
             });
             this.draw();
         }
