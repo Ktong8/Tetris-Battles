@@ -5,6 +5,8 @@ import HttpStatus from 'http-status-codes';
 const app: Application = express();
 const port = process.env.PORT || 5000;
 
+const numPieces = 7;
+
 app.get('/api/hello', (req: Request, res: Response, next: NextFunction) => {
     console.log('reached server');
     res.send({ express: 'Hello From Express' });
@@ -12,11 +14,11 @@ app.get('/api/hello', (req: Request, res: Response, next: NextFunction) => {
 
 app.get('/new/tetromino', asyncHandler((req: Request, res: Response) => {
     console.log('getting new tetromino');
-    const number = Math.floor(5 * Math.random());
+    const number = Math.floor(numPieces * Math.random());
     console.log(number);
     res.status(HttpStatus.OK)
         .type('text')
-        .send('2');
+        .send(number.toString());
 }));
 
 app.post('/api/world', (req: Request, res: Response) => {

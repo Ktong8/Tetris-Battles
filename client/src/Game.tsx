@@ -107,11 +107,15 @@ class Game extends React.Component<GameProps, GameState> {
     constructor(props: GameProps) {
         super(props);
         const board: Array<number> = new Array(width * height).fill(0);
+        const queue = [];
+        for (let i = 0; i < 3; i++) {
+            queue.push(Math.floor(Math.random() * pieces.length));
+        }
         this.state = {
             board: board,
-            queue: [0,1,2],
+            queue: queue,
             currentPosition: 4,
-            currentTetromino: 0,
+            currentTetromino: Math.floor(Math.random() * pieces.length),
             currentRotation: 0,
         };
     }
@@ -119,6 +123,10 @@ class Game extends React.Component<GameProps, GameState> {
     componentDidMount() {
         setInterval(this.advanceGame, 1000);
         document.addEventListener('keydown', this.handleKeyPress, false);
+    }
+
+    getRandomPiece = async () => {
+        return await (await fetch('/new/tetromino')).text();
     }
 
     advanceGame = () => {
@@ -232,8 +240,6 @@ class Game extends React.Component<GameProps, GameState> {
                     (this.state.board[index + this.state.currentPosition + width] !== 0 &&
                     grid.findIndex(val => val===index + width) === -1);
         })) {
-            const randomTetromino = Math.floor(Math.random() * pieces.length);
-            const randomRotation = Math.floor(Math.random() * pieces[randomTetromino].grids.length);
             this.setState((prevState: GameState) => {
                 const newQueue = prevState.queue.slice(1);
                 const nextPiece = prevState.queue[0];
@@ -250,6 +256,17 @@ class Game extends React.Component<GameProps, GameState> {
     }
 
     rotate = () => {
+        const tetrominos = pieces[this.state.currentTetromino];
+        const grid = tetrominos.grids[(this.state.currentRotation + 1) % tetrominos.grids.length];
+        const oldGrid = tetrominos.grids[this.state.currentRotation];
+        if ((this.state.currentPosition % width) + tetrominos.width[this.state.currentRotation + 1] >= width ||
+            Math.floor(this.state.currentPosition / width) + tetrominos.height[this.state.currentRotation + 1] >= height ||
+            grid.some((index) => {
+            return ((this.state.board[index + this.state.currentPosition] !== 0 &&
+                    oldGrid.findIndex(val => val===index) === -1));
+        })){
+            return;  // don't move rotate if going into other piece or off board
+        }
         this.undraw();
         const tetromino = pieces[this.state.currentTetromino];
         const rotations = tetromino.grids.length;
