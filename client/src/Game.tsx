@@ -125,10 +125,6 @@ class Game extends React.Component<GameProps, GameState> {
     constructor(props: GameProps) {
         super(props);
         const board: Array<number> = new Array(width * height).fill(0);
-        board[34] = 1;
-        board[35] = 1;
-        board[44] = 1;
-        board[45] = 1;
         this.state = {
             board: board,
             queue: [0,1,2],
@@ -146,7 +142,7 @@ class Game extends React.Component<GameProps, GameState> {
      * Game Logic to be run every set interval
      */
     moveDown = ()=> {
-        //this.undraw();
+        this.undraw();
         this.setState((prevState: GameState) => {
             return {
                 currentPosition: prevState.currentPosition + width

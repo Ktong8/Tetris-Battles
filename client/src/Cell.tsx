@@ -19,28 +19,23 @@ interface CellProps {
 }
 
 interface CellState {
-    outerbox: string;
-    innerbox: string;
-    highlighted: boolean;
+    
 }
 
 class Cell extends React.Component<CellProps, CellState> {
     constructor(props: CellProps) {
         super(props);
-        const color = props.id % 10;
-        const highlighted = props.id >= 10;
-        this.state = {
-            outerbox: (cellMap.get(color)??['',''])[0],
-            innerbox: (cellMap.get(color)??['',''])[1],
-            highlighted: highlighted,
-        }
     }
 
     render() {
+        const color = this.props.id;
+        const outerbox = (cellMap.get(color)??['',''])[0];
+        const innerbox = (cellMap.get(color)??['',''])[1];
         const highlight = 'Cell-box-regular';
+        console.log('rerendering:');
         return (
-            <div className = {`Cell-box ${this.state.outerbox} ${highlight}`}>
-                <div className = {`Cell-inner-box ${this.state.innerbox}`}>
+            <div className = {`Cell-box ${outerbox} Cell-box-regular`}>
+                <div className = {`Cell-inner-box ${innerbox}`}>
 
                 </div>
             </div>
